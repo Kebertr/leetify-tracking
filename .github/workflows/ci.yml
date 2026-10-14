@@ -45,11 +45,6 @@ jobs:
           if echo "$CHANGED" | grep -Eq '^(frontend/|package.json|pnpm-lock.yaml)'; then
             docker build \
               --target frontend-runtime \
-              --build-arg VITE_API_URL=$VITE_API_URL \
-              --build-arg VITE_KEYCLOAK_URL=$VITE_KEYCLOAK_URL \
-              --build-arg VITE_KEYCLOAK_REALM=$VITE_KEYCLOAK_REALM \
-              --build-arg VITE_KEYCLOAK_CLIENT_ID=$VITE_KEYCLOAK_CLIENT_ID \
-              --target frontend-runtime \
               -f Dockerfile \
               -t ghcr.io/kebertr/leetify-frontend:${IMAGE_TAG} \
               .
