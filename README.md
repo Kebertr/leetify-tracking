@@ -83,3 +83,24 @@ To use another host port, change `8080:8080` in `compose.yaml` (for example,
 - Match history and rank availability depend on Leetify's response and profile privacy.
 
 This is an independent project using Leetify data, not an official Leetify app.
+
+## CI and GHCR images
+
+Pushing to `main` or `dev` runs `.github/workflows/ci.yml` and builds both
+Dockerfiles. The backend tests run before publishing the backend image;
+the frontend Docker build installs dependencies and builds the Vite app.
+
+The workflow publishes exactly two image packages:
+
+- `ghcr.io/kebertr/leetify-tracking-frontend`
+- `ghcr.io/kebertr/leetify-tracking-backend`
+
+A `main` push tags each image with `prod-<short-commit-sha>` and `latest`.
+A `dev` push tags each image with `dev-<short-commit-sha>` and `dev`.
+Both services are rebuilt on every push to those branches.
+
+Authentication uses the automatic `GITHUB_TOKEN` with `packages: write`;
+no personal access token is needed for the workflow. Image names follow the
+repository name automatically and are converted to lowercase for GHCR.
+The workflow publishes images only; it does not deploy or restart your app.
+Local Docker Compose still builds from source.

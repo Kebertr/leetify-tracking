@@ -103,7 +103,7 @@ async def player_history(
     limit: Literal["5", "10", "20", "50", "100", "all"] = "20",
 ):
     matches = await player_stats(steam64_id)
-    count = None if limit == "all" else int(1000)
+    count = None if limit == "all" else int(limit)
     return match_history(matches, search, count)
 
 
